@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Mon premier DOM</title>
+</head>
+<body>
+
+  <h1 id="titre">Bonjour !</h1>
+  <button onclick="changerTitre()">Clique moi</button>
+
+  <script>
+    function changerTitre() {
+  const titre = document.getElementById("titre");
+  titre.innerHTML = "Bonjour depuis JavaScript !";
+  titre.style.color = "red";
+  titre.style.fontSize = "50px";
+}
+  </script>
+
+</body>
+</html>
