@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Quiz Dev</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f0c29;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .quiz-box {
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 550px;
+      width: 100%;
+      color: white;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .header h1 { font-size: 1.8rem; margin-bottom: 8px; }
+    .header p  { color: rgba(255,255,255,0.6); font-size: 0.9rem; }
+    .progress-bar {
+      background: rgba(255,255,255,0.15);
+      border-radius: 99px;
+      height: 6px;
+      margin-bottom: 30px;
+    }
+    .progress-fill {
+      background: linear-gradient(90deg, #e94560, #f5a623);
+      border-radius: 99px;
+      height: 6px;
+      transition: width 0.4s ease;
+    }
+    .question-num {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 10px;
+    }
+    .question {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 25px;
+      line-height: 1.5;
+    }
+    .options { display: flex; flex-direction: column; gap: 12px; }
+    .option {
+      background: rgba(255,255,255,0.08);
+      border: 1.5px solid rgba(255,255,255,0.15);
+      border-radius: 12px;
+      padding: 15px 20px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      transition: all 0.2s;
+      text-align: left;
+      color: white;
+    }
+    .option:hover { background: rgba(255,255,255,0.15); transform: translateX(5px); }
+    .option.correct { background: rgba(39,197,125,0.3); border-color: #27c57d; }
+    .option.wrong   { background: rgba(233,69,96,0.3);  border-color: #e94560; }
+    .option:disabled { cursor: not-allowed; }
+    .result {
+      text-align: center;
+      display: none;
+    }
+    .result .score {
+      font-size: 4rem;
+      font-weight: 700;
+      background: linear-gradient(90deg, #e94560, #f5a623);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .result .msg { font-size: 1.1rem; margin: 15px 0 25px; color: rgba(255,255,255,0.8); }
+    .btn-restart {
+      background: linear-gradient(135deg, #e94560, #f5a623);
+      color: white;
+      border: none;
+      padding: 14px 35px;
+      border-radius: 99px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-restart:hover { opacity: 0.85; }
+  </style>
+</head>
+<body>
+<div class="quiz-box">
+  <div class="header">
+    <h1>🧑‍💻 Quiz Dev</h1>
+    <p>Teste tes connaissances en développement web</p>
+  </div>
+
+  <div class="progress-bar">
+    <div class="progress-fill" id="progress"></div>
+  </div>
+
+  <div id="quiz-content">
+    <div class="question-num" id="qnum"></div>
+    <div class="question" id="question"></div>
+    <div class="options" id="options"></div>
+  </div>
+
+  <div class="result" id="result">
+    <div class="score" id="score"></div>
+    <div class="msg" id="msg"></div>
+    <button class="btn-restart" onclick="restart()">🔄 Recommencer</button>
+  </div>
+</div>
+
+<script>
+const questions = [
+  {
+    q: "Quelle balise HTML permet d'insérer du JavaScript ?",
+    options: ["&lt;js&gt;", "&lt;script&gt;", "&lt;code&gt;", "&lt;javascript&gt;"],
+    answer: 1
+  },
+  {
+    q: "Quel mot-clé JavaScript déclare une variable qui ne peut pas changer ?",
+    options: ["var", "let", "const", "fixed"],
+    answer: 2
+  },
+  {
+    q: "Quelle commande Git envoie le code sur GitHub ?",
+    options: ["git add", "git commit", "git push", "git send"],
+    answer: 2
+  },
+  {
+    q: "Que fait document.getElementById() ?",
+    options: [
+      "Crée un nouvel élément HTML",
+      "Supprime un élément HTML",
+      "Sélectionne un élément HTML par son id",
+      "Change la couleur d'un élément"
+    ],
+    answer: 2
+  },
+  {
+    q: "Quelle est la bonne syntaxe d'une arrow function en JS ?",
+    options: [
+      "function (a, b) => a + b",
+      "const add = (a, b) => a + b",
+      "arrow add(a, b) { return a + b }",
+      "def add(a, b): a + b"
+    ],
+    answer: 1
+  }
+];
+
+let current = 0;
+let score = 0;
+
+function afficherQuestion() {
+  const q = questions[current];
+  document.getElementById("qnum").innerHTML =
+    "Question " + (current + 1) + " / " + questions.length;
+  document.getElementById("question").innerHTML = q.q;
+  document.getElementById("progress").style.width =
+    ((current / questions.length) * 100) + "%";
+
+  const opts = document.getElementById("options");
+  opts.innerHTML = "";
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement("button");
+    btn.className = "option";
+    btn.innerHTML = opt;
+    btn.onclick = () => choisir(i, btn);
+    opts.appendChild(btn);
+  });
+}
+
+function choisir(index, btn) {
+  const q = questions[current];
+  const tous = document.querySelectorAll(".option");
+  tous.forEach(b => b.disabled = true);
+
+  if (index === q.answer) {
+    btn.classList.add("correct");
+    score++;
+  } else {
+    btn.classList.add("wrong");
+    tous[q.answer].classList.add("correct");
+  }
+
+  setTimeout(() => {
+    current++;
+    if (current < questions.length) {
+      afficherQuestion();
+    } else {
+      afficherResultat();
+    }
+  }, 1200);
+}
+
+function afficherResultat() {
+  document.getElementById("quiz-content").style.display = "none";
+  document.getElementById("result").style.display = "block";
+  document.getElementById("progress").style.width = "100%";
+  document.getElementById("score").innerHTML = score + "/" + questions.length;
+
+  let msg = "";
+  if (score === questions.length) msg = "🏆 Parfait ! Tu es prêt pour Toronto !";
+  else if (score >= 3) msg = "💪 Bien joué ! Continue comme ça !";
+  else msg = "📚 Révise et recommence — tu vas y arriver !";
+  document.getElementById("msg").innerHTML = msg;
+}
+
+function restart() {
+  current = 0; score = 0;
+  document.getElementById("quiz-content").style.display = "block";
+  document.getElementById("result").style.display = "none";
+  afficherQuestion();
+}
+
+afficherQuestion();
+</script>
+</body>
+</html>
