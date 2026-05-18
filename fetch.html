@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Fetch API</title>
+</head>
+<body>
+    <h1>Liste des utilisateurs</h1>
+    <ul id="liste"></ul>
+
+    <script>
+        fetch("https://jsonplaceholder.typicode.com/users")
+          .then(function(response) {
+            return response.json();
+          })
+          .then(function(data) {
+            let liste = document.getElementById("liste");
+            for (let i = 0; i < data.length; i++) {
+                let li = document.createElement("li");
+                li.textContent = data[i].name + " — " + data[i].email;
+                liste.appendChild(li);
+            }
+          });
+    </script>
+</body>
+</html>
