@@ -76,6 +76,11 @@ function afficher(liste) {
     let container = document.getElementById("liste");
     container.innerHTML = "";
 
+    if (liste.length === 0) {
+        container.innerHTML = "<p style='color:black'>Aucun utilisateur trouvé.</p>";
+        return;
+    }
+
     for (let i = 0; i < liste.length; i++) {
         let div = document.createElement("div");
         div.className = "carte";
@@ -87,6 +92,20 @@ function afficher(liste) {
         container.appendChild(div);
     }
 }
+let champ = document.getElementById("recherche");
+
+champ.addEventListener("input", function() {
+    let texte = champ.value.toLowerCase();
+    
+    let filtres = [];
+    for (let i = 0; i < donnees.length; i++) {
+        if (donnees[i].name.toLowerCase().includes(texte)) {
+            filtres.push(donnees[i]);
+        }
+    }
+    
+    afficher(filtres);
+});
     </script>
 </body>
 </html>
