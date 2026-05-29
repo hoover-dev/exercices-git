@@ -19,26 +19,42 @@
 }
 
 h1 {
-    color: #333;
+    color: #2c3e50;
     text-align: center;
+    margin-bottom: 20px;
 }
 
 #recherche {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     font-size: 16px;
-    border: 1px solid #ccc;
+    border: 2px solid #3498db;
     border-radius: 8px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     box-sizing: border-box;
+    outline: none;
+}
+
+#compteur {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 15px;
 }
 
 .carte {
     background: white;
-    padding: 15px;
+    padding: 15px 20px;
     margin-bottom: 10px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-left: 4px solid #3498db;
+    transition: transform 0.2s;
+    cursor: pointer;
+}
+
+.carte:hover {
+    transform: translateX(5px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 
 .carte h3 {
@@ -49,6 +65,7 @@ h1 {
 .carte p {
     margin: 3px 0;
     color: #666;
+    font-size: 14px;
 }
     </style>
 </head>
@@ -56,6 +73,7 @@ h1 {
     <div id="container">
         <h1>Annuaire Utilisateurs</h1>
         <input type="text" id="recherche" placeholder="Rechercher un utilisateur...">
+        <p id="compteur"></p>  
         <div id="liste"></div>
     </div>
 
@@ -76,6 +94,8 @@ function afficher(liste) {
     let container = document.getElementById("liste");
     container.innerHTML = "";
 
+    document.getElementById("compteur").textContent = liste.length + " utilisateur(s) trouvé(s)";
+
     if (liste.length === 0) {
         container.innerHTML = "<p style='color:black'>Aucun utilisateur trouvé.</p>";
         return;
@@ -88,6 +108,7 @@ function afficher(liste) {
             <h3>${liste[i].name}</h3>
             <p>${liste[i].email}</p>
             <p>${liste[i].address.city}</p>
+            <p>${liste[i].phone}</p>
         `;
         container.appendChild(div);
     }
