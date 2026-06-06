@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Annuaire Utilisateurs</title>
+   
     <style>
         /* Le CSS viendra ici */
         body {
@@ -66,6 +67,38 @@ h1 {
     margin: 3px 0;
     color: #666;
     font-size: 14px;
+}
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    #container {
+        max-width: 100%;
+    }
+
+    #recherche {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .carte {
+        padding: 12px 15px;
+    }
+
+    .carte h3 {
+        font-size: 0.95rem;
+    }
+
+    .carte p {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.4rem;
+    }
 }
     </style>
 </head>
