@@ -107,7 +107,7 @@ h1 {
         <h1>Annuaire Utilisateurs</h1>
         <input type="text" id="recherche" placeholder="Rechercher un utilisateur...">
         <p id="compteur"></p>  
-        <div id="liste"></div>
+        <div id="liste" style="display:flex; flex-wrap:wrap; gap:15px;"></div>
     </div>
 
     <script>
@@ -137,6 +137,7 @@ function afficher(liste) {
     for (let i = 0; i < liste.length; i++) {
         let div = document.createElement("div");
         div.className = "carte";
+        div.style.flex = "1 1 300px";
         div.innerHTML = `
             <h3>${liste[i].name}</h3>
             <p>${liste[i].email}</p>
