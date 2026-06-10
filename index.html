@@ -53,11 +53,6 @@ h1 {
     cursor: pointer;
 }
 
-.carte:hover {
-    transform: translateX(5px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-}
-
 .carte h3 {
     margin: 0 0 5px 0;
     color: #2c3e50;
@@ -109,6 +104,12 @@ h1 {
 @media (max-width: 600px) {
     #liste {
         grid-template-columns: 1fr;
+    }
+}
+@media (hover: hover) {
+    .carte:hover {
+        transform: translateX(5px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
     }
 }
     </style>
