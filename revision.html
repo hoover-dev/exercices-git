@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Révision JS</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f0f2f5; }
+        #container { max-width: 600px; margin: 0 auto; }
+        input { width: 100%; padding: 10px; margin-bottom: 15px; 
+                border: 2px solid #3498db; border-radius: 8px; 
+                box-sizing: border-box; }
+        .carte { background: white; padding: 15px; margin-bottom: 10px;
+                 border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        #stats { background: #2c3e50; color: white; padding: 15px; 
+                 border-radius: 8px; margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1>Révision JS</h1>
+        <div id="stats"></div>
+        <input type="text" id="recherche" placeholder="Filtrer par nom...">
+        <div id="liste"></div>
+    </div>
+    <script>
+        /* ton code ici */
+        /*requete de donnees, recuperer dess donnees depuis internet (API)*/
+    
+    let donnees = []; // stocke tous les utilisateurs récupérés
+
+    fetch("https://jsonplaceholder.typicode.com/users")
+    .then(function(response) {
+        return response.json();
+    })
+    .then(function(data) {
+        donnees = data;
+        afficher(donnees);
+    });
+
+    function afficher(liste) {
+        
+        // container = la boite HTML qui contient les cartes
+        let container = document.getElementById("liste");
+        
+        // container.innerHTML = "" → vide la boite avant d'afficher
+        // (evite de doubler les cartes a chaque recherche)
+        container.innerHTML = "";
+
+        // calcul des stats : note fictive = id * 2
+        // Total = 2 + 4 + 6 + 8 + 10 + 12 + 14 + 16 + 18 + 20 = 110
+        // Moyenne = 110 / 10 = 11.0
+        let totalNotes = 0;
+        for (let i = 0; i < liste.length; i++) {
+            totalNotes += liste[i].id * 2;
+        }
+        let moyenne = liste.length > 0 ? (totalNotes / liste.length).toFixed(1) : 0;
+        
+        // stats = la boite noire en haut qui affiche le resume
+        document.getElementById("stats").innerHTML = `
+            Total : ${liste.length} utilisateurs | Note moyenne : ${moyenne}/20
+        `;
+
+        // affichage des cartes utilisateurs
+        for (let i = 0; i < liste.length; i++) {
+            let div = document.createElement("div"); // cree une boite vide
+            div.className = "carte"; // lui donne le style CSS .carte
+            div.innerHTML = `
+                <h3>${liste[i].name}</h3>
+                <p>${liste[i].email}</p>
+            `;
+            // appendChild → colle la carte dans la boite container
+            container.appendChild(div);
+        }
+
+        // message si aucun resultat trouve
+        if (liste.length === 0) {
+            container.innerHTML = "<p>Aucun utilisateur trouvé.</p>";
+        }
+    }
+
+    // ecoute ce que l utilisateur tape dans le champ de recherche
+    let champ = document.getElementById("recherche");
+    champ.addEventListener("input", function() {
+        let texte = champ.value.toLowerCase();
+        
+        let filtres = []; // tableau vide qui recevra les resultats
+        for (let i = 0; i < donnees.length; i++) {
+            if (donnees[i].name.toLowerCase().includes(texte)) {
+                // .push → ajoute l utilisateur dans le tableau filtres
+                filtres.push(donnees[i]);
+            }
+        }
+        afficher(filtres); // affiche uniquement les resultats filtres
+    });
+</script>
+    
+</body>
+</html>
