@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hoover | Étudiant en Informatique</title>
+    <style>
+        /* style general de la page */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+            color: #2c3e50;
+        }
+
+        /* conteneur principal centre */
+        #container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* header avec nom et specialite */
+        header {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+
+        header p {
+            color: #3498db;
+            font-size: 1rem;
+        }
+
+        /* titres de section */
+        h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        /* section a propos */
+        #apropos {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* grille des competences */
+        #competences {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        /* carte de competence */
+        .carte {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-left: 4px solid #3498db;
+            text-align: center;
+        }
+
+        /* effet hover sur les cartes */
+        @media (hover: hover) {
+            .carte:hover {
+                transform: translateX(5px);
+            }
+        }
+
+        .carte h3 {
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .carte p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* footer */
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        footer a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        /* media query mobile */
+        @media (max-width: 600px) {
+            #competences {
+                grid-template-columns: 1fr;
+            }
+
+            header h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+
+        <!-- header : nom et specialite -->
+        <header>
+            <h1>Hoover</h1>
+            <p>Étudiant en L2 Informatique • Auto-apprentissage</p>
+        </header>
+
+        <!-- section a propos -->
+        <section id="apropos">
+            <h2>À propos</h2>
+            <p>
+                Bonjour ! Je suis Hoover, étudiant en Licence Informatique à l'ESAG-NDE, Lomé, Togo.
+                Passionné par le développement web, je construis des projets concrets pour progresser
+                vers mon objectif : Toronto, Canada.
+            </p>
+        </section>
+
+        <!-- section competences avec grid -->
+        <section id="competences">
+            <div class="carte">
+                <h3>HTML &amp; CSS</h3>
+                <p>Sites web responsives avec Flexbox, Grid et Media queries.</p>
+            </div>
+            <div class="carte">
+                <h3>JavaScript</h3>
+                <p>Fetch API, DOM, boucles, conditions et projets déployés.</p>
+            </div>
+            <div class="carte">
+                <h3>Git &amp; GitHub</h3>
+                <p>Commits, branches, Pull Requests et GitHub Pages.</p>
+            </div>
+        </section>
+
+        <!-- footer avec lien github -->
+        <footer>
+            <p>© 2026 Hoover — <a href="https://github.com/hoover-dev">github.com/hoover-dev</a></p>
+        </footer>
+
+    </div>
+</body>
+</html>
